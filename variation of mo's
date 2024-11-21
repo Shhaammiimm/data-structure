@@ -1,0 +1,68 @@
+***frequency of frequency array:
+void remove(int ind){ 
+  int prefreq=mp[a[ind]];  
+  mp[a[ind]]--;
+  int  curfreq=mp[a[ind]];
+  freq[prefreq]--;
+  freq[curfreq]++;
+  if(curfreq<res){
+     while(freq[res]==0)res--;
+  }
+  
+}  
+void add(int ind){ 
+  int prefreq=mp[a[ind]];   
+  mp[a[ind]]++;
+  int curfreq=mp[a[ind]];
+  freq[prefreq]--;
+  freq[curfreq]++;
+  if(curfreq>res){
+    res=curfreq;
+  }
+  
+}  
+//maximum distance between two same elements in a range:
+void add_r(int ind){ 
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]--;
+  }
+  dq[a[ind]].push_back(ind);
+  cnt[dq[a[ind]].back()-dq[a[ind]].front()]++;
+  res=max(res,dq[a[ind]].back()-dq[a[ind]].front());
+}  
+
+void add_l(int ind){ 
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]--;
+  }
+  dq[a[ind]].push_front(ind);
+  cnt[dq[a[ind]].back()-dq[a[ind]].front()]++;
+  res=max(res,dq[a[ind]].back()-dq[a[ind]].front());
+}  
+
+void remove_r(int ind){ 
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]--;
+  }
+  dq[a[ind]].pop_back();
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]++;
+  }
+  while(cnt[res]==0 && res>0)res--;
+}  
+
+void remove_l(int ind){ 
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]--;
+  }
+  dq[a[ind]].pop_front();
+  if(!dq[a[ind]].empty()){
+    cnt[dq[a[ind]].back()-dq[a[ind]].front()]++;
+  }
+  while(cnt[res]==0 && res>0)res--;
+}  
+change here also:
+while (l > q[i].l)add_l(--l);
+while (r < q[i].r)add_r(++r);
+while (l < q[i].l)remove_l(l++);
+while (r > q[i].r)remove_r(r--);
