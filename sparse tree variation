@@ -49,3 +49,59 @@ void solve(){
     cout<<ans;
 
 }
+
+//For each query xi you have to count the number of pairs (l, r) such that 1 ≤ l ≤ r ≤ n and gcd(al, al + 1, ..., ar) = xi.
+
+
+int t[N][20],a[N],k,n,q;
+void build(int n){
+    for(int i=1;i<=n;i++)t[i][0]=a[i];
+
+    for(int k=1;k<18;k++){
+      for(int i=1;i+(1<<k)-1<=n;i++){
+        t[i][k]=__gcd(t[i][k-1],t[i+(1<<(k-1))][k-1]);
+      }
+    }
+    
+}
+
+int query(int l,int r){
+    int k=31- __builtin_clz(r-l+1);
+    return __gcd(t[l][k],t[r-(1<<k)+1][k]);
+}
+int get_max_R(int i,int L,int cur_gc){
+      int l=L,r=n,now=0;
+		while(l<=r){
+			int mid=(l+r)/2;
+			if(query(i,mid)==cur_gc){
+				now=mid;
+				l=mid+1;
+			}
+			else r=mid-1;
+		}
+	return now;
+}
+void solve(){
+     cin >> n;
+     for(int i = 1 ; i <= n ; i++){
+        cin >> a[i];
+     }
+    build(n);
+	map<int,int>ans;
+    for(int i=1;i<=n;i++){
+		int l=i,gc=a[l];
+		while(1){
+			int r=get_max_R(i,l,gc);
+			ans[gc]+=r-l+1;
+			if(r==n)break;
+			l=r+1;
+			gc=query(i,l);
+		}
+	}
+    cin >> q;
+	while( q-- ){
+		int x;
+		cin>>x;
+		cout<<ans[x]<<nl;
+	}
+}
