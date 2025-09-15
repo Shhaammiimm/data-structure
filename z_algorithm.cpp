@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 vector<int> z_function(string s) {
-  int n = (int) s.length();
+  int n = (int) s.size();
   vector<int> z(n);
   for (int i = 1, l = 0, r = 0; i < n; ++i) {
     if (i <= r)
@@ -13,9 +13,21 @@ vector<int> z_function(string s) {
   }
   return z;
 }
+vector<int>ans;
+void countPatterns(string s, string p){
+    string temp = p;
+    temp += s;
+    vector< int > z = z_function(temp);
+    for(int i = p.size() ; i < z.size() ; i++){
+        if( z[i] >= p.size() ) ans.push_back( i );
+    }
+    
+}
+
 int main(){
-   string s;
-   cin>>s;
-   vector<int>ans=z_function(s);
-   for(auto u:ans)cout<<u<<" ";
+
+   string s,t;
+   cin>>s>>t;
+   countPatterns(t,s);
+
 }
